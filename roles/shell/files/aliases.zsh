@@ -54,6 +54,8 @@ alias cip="curl ifconfig.me"  # was using icanhazip.com but was slow
 alias sourcenvm="source /usr/share/nvm/init-nvm.sh"
 alias tf="terraform"
 alias mount="mount | column -t"
+alias srvdir="goexec 'http.ListenAndServe(\`:8080\`, http.FileServer(http.Dir(\`.\`)))'"  # install goexec: go get -u github.com/shurcooL/goexec
+alias f="find . -name "
 
 # Trash managment with `trash-cli`
 alias rmt="trash-put"

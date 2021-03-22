@@ -1,80 +1,92 @@
 ---
 
-- name: Ensure google linux key is present
-  become: yes
-  apt_key:
-    url: https://dl-ssl.google.com/linux/linux_signing_key.pub
-    state: present
+# - name: Ensure google linux key is present
+#   become: yes
+#   apt_key:
+#     url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+#     state: present
 
-- name: Ensure google-chrome repository is present in apt
-  become: yes
-  apt_repository:
-    repo: deb http://dl.google.com/linux/chrome/deb/ stable main
+# - name: Ensure google-chrome repository is present in apt
+#   become: yes
+#   apt_repository:
+#     repo: deb http://dl.google.com/linux/chrome/deb/ stable main
 
-- name: Update apt
-  become: yes
-  apt: update_cache=yes
+# - name: Update apt
+#   become: yes
+#   apt: update_cache=yes
 
-- name: Install main repo packages
-  become: yes
-  apt:
-    pkg:
-      # - ack  # grep, but better for programmer
-      - anki  # flashcard app
-      - aria2  # Nice cli download threader / torrent downloader
-      - autojump  # Used in conjunction with zsh to autojump
-      - bat  # Better cat
-      - bpytop  # Stylish system monitor
-      - clipit  # Allow me to copy paste content with shell pipe
-      - curl
-      - espanso  # System wide snippets
-      - fd  # find alternative
-      - feh  # Image viewer, used to set desktop background
-      - flameshot  # For screenshots
-      - fzf  # Fuzzy interface
-      - git
-      - glow  # markdown reader
-      - google-chrome-stable
-      - grc  # Colorise cli commands like ping ls etc
-      - gron-bin  # Make JSON greppable
-      - grv  # git cli as tig
-      - htop
-      - httpie  # Modern alternative to curl
-      - jq  # JSON manipulation tool
-      - lastpass-cli  # lpass
-      - make
-      - mtr  # Traceroute with ping and graph
-      - mpv  # Video player
-      - ncdu  # Disk file size analyzer
-      - nnn  # Lightweight cli file manager
-      - pandoc  # Convert doc
-      - python3-virtualenv
-      - rename # Script that helps rename files
-      - rxvt-unicode  # urxvt terminal
-      - silver-searcher  # ag
-      - sysstat  # Collection of perf mon tools (iostat, isag, mpstat, pidstat, sadf, sar)
-      - texlive-fonts-extra
-      - texlive-fonts-recommended
-      - texlive-latex-base  # (texlive*) Required for pandoc md to pdf
-      - tig  # Git gui full of nice features and tree overview
-      - tldr  # Gives examples of common commands
-      - tmate  # Allow instant remote tmux interface like TeamViewer
-      - tmux
-      - traceroute
-      - vim
-      - visidata  # vd
-      - yarn
-      - zsh
-      # - whale  build a data index https://docs.whale.cx/setup/getting-started-for-teams
-      # - https://github.com/samtay/so  search stackoverflow from the command line
-      # - https://github.com/sampson-chen/sack wrapper for ag the silver searcher
-      # - mycli (though pip) mysql client with autocomplete and syntax highlight
+# - name: Install main repo packages
+#   become: yes
+#   apt:
+#     pkg:
+#       # - ack  # grep, but better for programmer
+#       - anki  # flashcard app
+#       - kitematic  # docker dashboard for linux (closest to the win/macos official version)
+#       - aria2  # Nice cli download threader / torrent downloader
+#       - autojump  # Used in conjunction with zsh to autojump
+#       - bat  # Better cat
+#       - bpytop  # Stylish system monitor
+#       - clipit  # Allow me to copy paste content with shell pipe
+#       - curl
+#       - docker
+#       - espanso  # System wide snippets
+#       - fd  # find alternative
+#       - feh  # Image viewer, used to set desktop background
+#       - flameshot  # For screenshots
+#       - fzf  # Fuzzy interface
+#       - git
+#       - glow  # markdown reader
+#       - google-chrome-stable
+#       - grc  # Colorise cli commands like ping ls etc
+#       - gron-bin  # Make JSON greppable
+#       - grv  # git cli as tig
+#       - htop
+#       - httpie  # Modern alternative to curl
+#       - jq  # JSON manipulation tool
+#       - lastpass-cli  # lpass
+#       - make
+#       - molecule  # Testing framework for ansible
+#       - mtr  # Traceroute with ping and graph
+#       - mpv  # Video player
+#       - ncdu  # Disk file size analyzer
+#       - nnn  # Lightweight cli file manager
+#       - pastebinit  # pastebin cli tool
+#       - pandoc  # Convert doc
+#       - python3-virtualenv
+#       - rclone  # rsync tool to connect to various backends
+#       - restic  # backup tool with numerous backend services (support rclone)
+#       - rename # Script that helps rename files
+#       - rxvt-unicode  # urxvt terminal
+#       - silver-searcher  # ag
+#       - sysstat  # Collection of perf mon tools (iostat, isag, mpstat, pidstat, sadf, sar)
+#       - texlive-fonts-extra
+#       - texlive-fonts-recommended
+#       - texlive-latex-base  # (texlive*) Required for pandoc md to pdf
+#       - tig  # Git gui full of nice features and tree overview
+#       - tldr  # Gives examples of common commands
+#       - tmate  # Allow instant remote tmux interface like TeamViewer
+#       - tmux
+#       - traceroute
+#       - vim
+#       - visidata  # vd
+#       - yarn
+#       - zsh
+#       - giph  # GIF screen recorder
+#       # - whale  build a data index https://docs.whale.cx/setup/getting-started-for-teams
+#       # - https://github.com/samtay/so  search stackoverflow from the command line
+#       # - https://github.com/sampson-chen/sack wrapper for ag the silver searcher
+#       # - mycli (though pip) mysql client with autocomplete and syntax highlight
 
-- name: Install packages from snap
-  become: yes
-  snap:
-    name: "{{ item.name }}"
-    classic: "{{ item.classic }}"
-  loop:
-    - { 'name': 'code', 'classic': 'yes' }
-    - { 'name': 'go', 'classic': 'yes' }
+# - name: Install packages from snap
+#   become: yes
+#   snap:
+#     name: "{{ item.name }}"
+#     classic: "{{ item.classic }}"
+#   loop:
+#     - { 'name': 'code', 'classic': 'yes' }
+#     - { 'name': 'go', 'classic': 'yes' }
+
+- name: Ensure kyrat is cloned
+  git:
+    repo: https://github.com/fsquillace/kyrat
+    dest: "{{ ansible_env.HOME }}/.local/share/kyrat"

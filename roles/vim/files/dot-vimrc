@@ -224,6 +224,13 @@ nmap <Leader>x :x<cr>
 nmap <Leader>c :q<cr>
 nmap <Leader>fc :qa<cr>
 
+" Move line down 1
+nmap <C-j> ddp
+
+" Move line up 1
+nmap <C-k> ddkP
+
+
 " VimGrep
 nmap [q :cprev<cr>
 nmap ]q :cnext<cr>
@@ -360,7 +367,7 @@ let g:vim_markdown_toc_autofit = 1
 "/ Airline
 "/
 let g:airline_highlighting_cache = 1
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline_theme='base16_gruvbox_dark_hard'
 
 

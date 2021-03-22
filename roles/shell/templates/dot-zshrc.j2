@@ -19,6 +19,9 @@ export PATH="$PATH:{{ ansible_env.HOME }}/bin"
 export DENO_INSTALL="{{ ansible_env.HOME }}/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
+# Export kyrat bin folder
+export PATH="$PATH:{{ ansible_env.HOME }}/.local/share/kyrat/bin"
+
 # Setup for typewritten theme
 export TYPEWRITTEN_PROMPT_LAYOUT="pure"
 export TYPEWRITTEN_CURSOR="block"
@@ -32,6 +35,7 @@ source ~/.zsh/functions-ansible_dotfiles.zsh
 
 # Source aliases
 source ~/.zsh/aliases.zsh
+source ~/.zsh/restic.zsh
 
 # Source thefuck for command autofix by typing fuck
 eval "$(thefuck --alias fuck)"
