@@ -18,6 +18,7 @@
     - ".vim/swap"
     - ".vim/autoload"
     - ".vim/UltiSnips"
+    - ".config/nvim"
 
 - name: Get vim-plug
   get_url: url=https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim dest={{ ansible_env.HOME }}/.vim/autoload/plug.vim
@@ -26,5 +27,12 @@
   copy:
     src: dot-vimrc
     dest: "{{ ansible_env.HOME }}/.vimrc"
+    owner: "{{ ansible_user }}"
+    group: "users"
+
+- name: Upload nvim init configuration file
+  copy:
+    src: init.vim
+    dest: "{{ ansible_env.HOME }}/.config/nvim/init.vim"
     owner: "{{ ansible_user }}"
     group: "users"

@@ -4,7 +4,7 @@ source {{ ansible_env.HOME }}/.zsh/antigen.zsh
 # Load antigen configuration
 antigen init {{ ansible_env.HOME }}/.config/.antigenrc
 
-export EDITOR="vim"
+export EDITOR="nvim"
 
 # Export pip3 bin folder
 export PATH="$PATH:{{ ansible_env.HOME }}/.local/bin"
