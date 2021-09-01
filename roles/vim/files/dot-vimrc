@@ -1,35 +1,91 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Description:
+"   This is the .vimrc file
+"
+" Maintainer:
+"   COMTE Nicolas
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Install vim-plug if we don't already have it
+" Credit to github.com/captbaritone
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!mkdir -p ~/.vim/plugged'
+    execute '!mkdir -p ~/.vim/autoload'
+    " Download the actual plugin manager
+    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
+
 call plug#begin('~/.vim/plugged')
-Plug 'SirVer/ultisnips'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-Plug 'chr4/nginx.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'dense-analysis/ale'  " Asynchronous Lint Engine
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'gabrielelana/vim-markdown'
-Plug 'hashivim/vim-terraform'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-Plug 'kovetskiy/sxhkd-vim'
-Plug 'kovetskiy/sxhkd-vim'  " Handle sxhkd files properly w/ indent + color
-Plug 'mileszs/ack.vim'
-Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
-Plug 'phenomenes/ansible-snippets', { 'tag': 'v2.7.9' }
-Plug 'psliwka/vim-smoothie'
-Plug 'scrooloose/nerdtree'
-Plug 'sheerun/vim-polyglot'
-Plug 'stevearc/vim-arduino'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-commentary'  " Manage comments with <Leader>gc
-Plug 'tpope/vim-fugitive'
+"Plug 'SirVer/ultisnips'
+"Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+"Plug 'chr4/nginx.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'dense-analysis/ale'  " Asynchronous Lint Engine
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"" Plug 'gabrielelana/vim-markdown'
+"Plug 'hashivim/vim-terraform'
+""Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+"Plug 'kovetskiy/sxhkd-vim'  " Handle sxhkd files properly w/ indent + color
+"Plug 'mileszs/ack.vim'
+"" Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
+"Plug 'phenomenes/ansible-snippets', { 'tag': 'v2.7.9' }
+"Plug 'psliwka/vim-smoothie'
+"Plug 'scrooloose/nerdtree'
+"" Plug 'sheerun/vim-polyglot'
+"Plug 'stevearc/vim-arduino'
+"Plug 'tpope/vim-commentary'  " Manage comments with <Leader>gc
+"Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-surround'
+"Plug 'tpope/vim-vinegar'
+"Plug 'kyazdani42/nvim-web-devicons'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+"Plug 'vitapluvia/vim-gurl'
+
+
+" Bag of mappings
 Plug 'tpope/vim-surround'
+Plug 'romainl/vim-qf'
+
+" Snippets
+Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+
+" Navigation
 Plug 'tpope/vim-vinegar'
+Plug 'ctrlpvim/ctrlp.vim' " TODO: I don't really use that anymore.
+Plug 'mileszs/ack.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'psliwka/vim-smoothie'  " smooth scroll
+
+" Theming
+Plug 'nanotech/jellybeans.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vitapluvia/vim-gurl'
+
+" Filetype specific plugins
+Plug 'pearofducks/ansible-vim'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-pandoc'
+" Plug '5long/pytest-vim-compiler'
+Plug 'hashivim/vim-terraform'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'kovetskiy/sxhkd-vim'  " Handle sxhkd files properly w/ indent + color
+
+" Tag management
+" Plug 'ludovicchabant/vim-gutentags'
+
+" 'IDE' features
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-commentary'  " Manage comments with <Leader>gc
+
+
 call plug#end()
 
 "-- MISC --"
 """"""""""""
-
 " Allow backspace in insert mode.
 set backspace=indent,eol,start
 
@@ -72,6 +128,10 @@ set viminfo^=!
 
 " Show the line and column number of the cursor position.
 set ruler
+
+" Set the minimal amount of lignes under and above the cursor
+" Useful for keeping context when moving with j/k
+set scrolloff=5
 
 " Autocomplete commands using nice menu in place of window status.
 " Enable `Ctrl-N` and `Ctrl-P` to scroll through matches.
@@ -136,8 +196,8 @@ syntax enable
 "set background=dark
 
 " Highlight trailing white space end of line
-:highlight ExtraWhiteSpace ctermbg=red guibg=red
-call matchadd('ExtraWhiteSpace', '\s\+$')
+ :highlight ExtraWhiteSpace ctermbg=red guibg=red
+ call matchadd('ExtraWhiteSpace', '\s\+$')
 
 "-- SEARCH --"
 """"""""""""""
@@ -296,6 +356,28 @@ nmap <s-tab> gT
 """""""""""""""
 
 "/
+"/ vim-go
+"/
+"/ Golang plugin for vim
+"/
+
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
+"/ ack.vim
+"/
+"/ use ack within vim
+
+" let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" Disable Ack.vim's mappings on the quickfix and location list windows
+" We use vim-qf mappings instead
+let g:ack_apply_qmappings = 0
+let g:ack_apply_lmappings = 0
+let g:qf_mapping_ack_style = 1
+
+
+"/
 "/ vim-arduino
 "/
 "/ Develop, compile, upload arduino code from within vim
@@ -322,7 +404,7 @@ let g:ansible_unindent_after_newline = 1
 let g:ansible_extra_keywords_highlight = 1
 
 "/ Force filetype
-au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml
+au BufRead,BufNewFile */inventories/* set filetype=yaml.ansible
 
 
 "/
@@ -374,7 +456,7 @@ let g:airline_theme='base16_gruvbox_dark_hard'
 "/
 "/ Polygot
 "/
-let g:polyglot_disabled = ['markdown']
+"let g:polyglot_disabled = ['markdown']
 
 
 "/
@@ -387,13 +469,20 @@ let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 let g:UltiSnipsEditSplit="vertical"
 
 "/
+"/ Fugitive
+"/
+
+" Launch fugitive's gstatus
+noremap <leader>gs :Gstatus<cr>
+
+"/
 "/ LeaderF
 "/
 
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 " let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
-let g:Lf_ShowDevIcons = 0
+let g:Lf_ShowDevIcons = 1
 let g:Lf_ShortcutF = "<leader>ff"
 noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>

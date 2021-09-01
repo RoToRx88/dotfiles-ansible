@@ -1,9 +1,23 @@
 ---
 
+- name: Ensure Xresources.d directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.Xresources.d"
+    state: directory
+
 - name: Upload Xresources file
   copy:
     src: dot-Xresources
     dest: "{{ ansible_env.HOME }}/.Xresources"
+
+- name: Upload Xresources.d files
+  file:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.Xresources.d/"
+  loop:
+    - "colors"
+    - "fonts-file"
+    - "rxct-unicode"
 
 - name: Upload xinitrc file
   copy:
